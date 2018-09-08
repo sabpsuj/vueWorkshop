@@ -5,13 +5,16 @@
             <button @click="removeItem(item.id)">{{ removeButtonLabel }}</button>
         </li>
     </ul>
-    
+    <h1>{{ foxTalk }}</h1>
     <form @submit.prevent="onSubmit()">
       <input 
         name="item" 
         id="fishInput" 
         v-validate="'required:true'"
         type="text"/>
+        <div v-show="errors.has('item')">
+        {{ errors.first('item') }}
+      </div>
       <button>{{buttonLabel}}</button>
     </form>
     
@@ -44,7 +47,8 @@ export default {
             }
         ],
         buttonLabel: 'Dodaj Rybę',
-        removeButtonLabel: 'X'
+        removeButtonLabel: 'X',
+        foxTalk: 'What does the fox say?'
         }
       },
       methods: {

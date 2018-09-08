@@ -58,7 +58,8 @@
       },
       methods: {
           addNew() {
-              this.items.push({id: 4, name: 'Złota Rybka'})
+              let newFish = document.getElementById('fishInput').value;
+              this.items.push({id: 4, name: newFish})
           }
       }
     })

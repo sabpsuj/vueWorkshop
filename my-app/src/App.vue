@@ -1,74 +1,66 @@
 <template>
   <div id="app">
-    <ul>
-        <li v-for="item in items" :key="item.id">{{ item.name }}
-            <button @click="removeItem(item.id)">{{ removeButtonLabel }}</button>
-        </li>
-    </ul>
     <h1>{{ foxTalk }}</h1>
-    <form @submit.prevent="onSubmit()">
-      <input 
-        name="item" 
-        id="fishInput" 
-        v-validate="'required:true'"
-        type="text"/>
-        <div v-show="errors.has('item')">
-        {{ errors.first('item') }}
-      </div>
-      <button>{{buttonLabel}}</button>
-    </form>
-    
+    <products-list 
+      @remove-product="onRemoveProduct($event)"
+      :items="items"
+      :remove-button-label="removeButtonLabel"
+    ></products-list>
+    <add-product
+    :button-label="buttonLabel"
+    @add-product="onAddProduct($event)"
+    >
+    </add-product>
   </div>
 </template>
 
 <script>
 import uuid from 'uuid/v4';
+import ProductsList from './components/ProductsList.vue';
+import AddProduct from './components/AddProduct.vue';
 
 export default {
   name: 'app',
+  components: {
+    ProductsList,
+    AddProduct
+  },
   data() {
-    return {
-      items:[
-            {
-                id: 0,
-                name: 'Łosoś'
-            },
-            {
-                id: 1,
-                name: 'Pstrąg'
-            },
-            {
-                id: 2,
-                name: 'Flądra'
-            },
-            {
-                id: 3,
-                name: 'Szprot'
-            }
-        ],
-        buttonLabel: 'Dodaj Rybę',
-        removeButtonLabel: 'X',
-        foxTalk: 'What does the fox say?'
-        }
-      },
-      methods: {
-          addNew() {
-              let newFish = document.getElementById('fishInput').value;
-              this.items.push({id: uuid(), name: newFish});
+        return {
+  items:[
+          {
+              id: 0,
+              name: 'Łosoś'
           },
-          removeItem(el) {
-              this.items.splice(el, 1);
+          {
+              id: 1,
+              name: 'Pstrąg'
           },
-          onSubmit() {
-            this.$validator.validateAll().then(result => {
-            if (!result) {
-              return;
-            }
-            this.addNew();
-            this.$validator.reset();
-            });
+          {
+              id: 2,
+              name: 'Flądra'
+          },
+          {
+              id: 3,
+              name: 'Szprot'
           }
-        }
+      ],
+      buttonLabel: 'Dodaj Rybę',
+      removeButtonLabel: 'X',
+      foxTalk: 'What does the fox say?'
+      }
+  },
+  mounted() {
+
+  },
+methods: {
+    onAddProduct(newItem) {
+      this.items.push(newItem);
+    },
+    onRemoveProduct(item) {
+      this.items.splice(item.indexOf, 1);
+    }
+  }
   }
 
 </script>

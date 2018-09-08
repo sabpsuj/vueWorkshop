@@ -51,7 +51,6 @@ export default {
           addNew() {
               let newFish = document.getElementById('fishInput').value;
               this.items.push({id: uuid(), name: newFish});
-              newFish.name = ''
           },
           removeItem(el) {
               this.items.splice(el, 1);

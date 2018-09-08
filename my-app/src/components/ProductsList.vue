@@ -2,7 +2,7 @@
     <div>
         <ul>
         <li v-for="item in items" :key="item.id">{{ item.name }}
-            <button @click="removeProduct">{{ removeButtonLabel }}</button>
+            <button @click="removeProduct(item)">{{ removeButtonLabel }}</button>
         </li>
         <p v-if="!items.length">No Fishes anymore!</p>
     </ul>
@@ -18,9 +18,7 @@ export default {
     },
     methods: {
         removeProduct(item) {
-            this.$emit('remove-product', {
-                item
-            })
+            this.$emit('remove-product', item)
         }
     }
     

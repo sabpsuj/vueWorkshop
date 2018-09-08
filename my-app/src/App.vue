@@ -1,73 +1,38 @@
 <template>
   <div id="app">
     <h1>{{ foxTalk }}</h1>
-    <products-list 
-      @remove-product="onRemoveProduct($event)"
-      :items="items"
-      :remove-button-label="removeButtonLabel"
-    ></products-list>
-    <add-product
-    :button-label="buttonLabel"
-    @add-product="onAddProduct($event)"
-    >
-    </add-product>
+    <alco-list 
+    :alcos="sharedState.products"
+    ></alco-list>
   </div>
 </template>
 
 <script>
-import uuid from 'uuid/v4';
-import ProductsList from './components/ProductsList.vue';
-import AddProduct from './components/AddProduct.vue';
+import axios from "axios";
+import store from "./store";
+
+import AlcoList from "./components/AlcoList.vue";
 
 export default {
-  name: 'app',
+  name: "app",
   components: {
-    ProductsList,
-    AddProduct
+    AlcoList
   },
   data() {
-        return {
-  items:[
-          {
-              id: 0,
-              name: 'Łosoś'
-          },
-          {
-              id: 1,
-              name: 'Pstrąg'
-          },
-          {
-              id: 2,
-              name: 'Flądra'
-          },
-          {
-              id: 3,
-              name: 'Szprot'
-          }
-      ],
-      buttonLabel: 'Dodaj Rybę',
-      removeButtonLabel: 'X',
-      foxTalk: 'What does the fox say?'
-      }
+    return {
+      foxTalk: "What does the fox say?",
+      sharedState: store.state
+    };
   },
-  mounted() {
-
-  },
-methods: {
-    onAddProduct(newItem) {
-      this.items.push(newItem);
-    },
-    onRemoveProduct(item) {
-      this.items.splice(item.indexOf, 1);
-    }
+  created() {
+    store.fetchProducts();
   }
-  }
-
+};
 </script>
 
 <style>
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: left;
